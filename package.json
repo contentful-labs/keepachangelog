@@ -12,6 +12,10 @@
   ],
   "author": "Contentful GmbH",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:contentful-labs/keepachangelog.git"
+  },
   "devDependencies": {
     "babel": "^4.7.8",
     "babel-runtime": "^4.7.8",
