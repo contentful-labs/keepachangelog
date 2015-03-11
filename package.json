@@ -16,6 +16,9 @@
     "type": "git",
     "url": "git@github.com:contentful-labs/keepachangelog.git"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "devDependencies": {
     "babel": "^4.7.8",
     "babel-runtime": "^4.7.8",
