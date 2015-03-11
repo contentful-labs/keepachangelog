@@ -7,6 +7,8 @@ The prelude
 
 ### Changed
 - this has changed
+- this item continues
+  in the next line
 
 ### Removed
 - gone :(

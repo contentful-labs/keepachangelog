@@ -37,8 +37,13 @@ Changelog.prototype.build = function() {
   return buildChangelog(this);
 };
 
+Changelog.prototype.getRelease = function(version) {
+  return find(this.releases, (r) => r.version === version);
+};
+
+
 Changelog.prototype.addUpcomingChange = function(desc) {
-  var upcoming = find(this.releases, ({version}) => version === 'upcoming');
+  var upcoming = this.getRelease('upcoming');
   if (!upcoming) {
     upcoming = { version: 'upcoming' };
     this.releases.unshift(upcoming);

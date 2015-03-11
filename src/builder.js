@@ -8,21 +8,33 @@ var semver = require('semver');
  */
 export default function renderChangelog(cl) {
   var rendered =
-         buildMarkdown(cl.prelude) + '\n' +
+         buildElementList(cl.prelude) + '\n' +
          buildReleases(cl.releases) + '\n' +
-         buildMarkdown(cl.epilogue);
+         buildElementList(cl.epilogue);
   return rendered.trim() + '\n';
 }
 
 
-function buildMarkdown(md) {
+function buildElementList(md, sep) {
+  sep = sep || '';
   if (md)
-    return md.map(buildElement).join('');
+    return md.map(buildElement).join(sep);
   else
     return '';
 }
 
 
+/**
+ * Build a JsonML element
+ *
+ * element
+ *    = [ tag-name , attributes , element-list ]
+ *    | [ tag-name , attributes ]
+ *    | [ tag-name , element-list ']
+ *    | [ tag-name ]
+ *    | string
+ *    ;
+ */
 function buildElement(el) {
   if (typeof el == 'string')
     return el;
@@ -41,14 +53,14 @@ function buildElement(el) {
 
 function buildHeader(el) {
   var {level} = el.shift();
-  var title = buildMarkdown(el);
-  var header = map(new Array(level),() => '#').join('');
+  var title = buildElementList(el);
+  var header = repeat(level, '#');
   return header + ' ' + title + '\n';
 }
 
 
 function buildPara(el) {
-  return buildMarkdown(el) + '\n';
+  return buildElementList(el) + '\n';
 }
 
 
@@ -83,6 +95,16 @@ function buildVersionLog(name, release) {
     return '';
 
   var header = buildHeader([{level: 3}, name]);
-  var list = map(log, (entry) => '- ' + buildMarkdown(entry));
+  var list = map(log, (entry) => {
+    return '- ' + indent(buildElementList(entry), 2).trim();
+  });
   return header + list.join('\n') + '\n\n';
+}
+
+function indent(str, width) {
+  return map(str.split('\n'), (line) => repeat(width, ' ') + line).join('\n')
+}
+
+function repeat(n, x) {
+  return map(new Array(n), () => x).join('');
 }

@@ -2,6 +2,7 @@ import path from 'path'
 import {readFileSync} from 'fs'
 import {expect} from 'chai'
 import {parse} from '../src'
+import {find} from 'lodash-node'
 
 function readFixture(name) {
   var p = path.resolve('test', 'fixtures', name) + '.md'
