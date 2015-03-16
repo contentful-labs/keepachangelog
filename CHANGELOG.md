@@ -1,6 +1,6 @@
 # Change Log
 
-## Upcoming
+## v0.2.0 - 2015-03-16
 ### Added
 - Compile source on the fly if package has not been precompiled.
 
