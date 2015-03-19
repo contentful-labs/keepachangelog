@@ -23,6 +23,7 @@
   "dependencies": {
     "bluebird": "^2.9.13",
     "lodash-node": "^3.5.0",
+    "markdown": "^0.5.0",
     "semver": "^4.3.1"
   },
   "devDependencies": {
@@ -32,7 +33,6 @@
     "co": "^4.4.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^4.0.0",
-    "markdown": "^0.5.0",
     "mocha": "^2.2.1"
   }
 }
