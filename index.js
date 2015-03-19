@@ -1,10 +1,12 @@
 'use strict';
 
+var entryPoint = './dist'
+
 try {
-  module.exports = require('./dist');
+  require.resolve(entryPoint)
 } catch (e) {
-  if (e.code != 'MODULE_NOT_FOUND')
-    throw e;
   require('babel/register');
-  module.exports = require('./src');
+  entryPoint = './src';
 }
+
+module.exports = require(entryPoint);
