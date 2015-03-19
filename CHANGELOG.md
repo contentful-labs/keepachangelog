@@ -1,6 +1,6 @@
 # Change Log
 
-## Upcoming
+## v0.2.1 - 2015-03-19
 ### Changed
 - More robust loading source with babel
 - `markdown` is production dependency now
