@@ -96,7 +96,7 @@ function buildVersionLog(name, release) {
 
   var header = buildHeader([{level: 3}, name]);
   var list = map(log, (entry) => {
-    return '- ' + indent(buildElementList(entry), 2).trim();
+    return '- ' + indent(buildElement(entry), 2).trim();
   });
   return header + list.join('\n') + '\n\n';
 }

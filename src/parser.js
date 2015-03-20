@@ -100,7 +100,7 @@ function extractBulletList(md) {
     return null;
 
   return _.map(list.slice(1), function(item) {
-    return item.slice(1);
+    return item.slice(1)[0];
   });
 }
 
