@@ -6,7 +6,7 @@ The prelude
 - one added
 
 ### Changed
-- this has changed
+- this has changed with `linline code`.
 - this item continues
   in the next line
 
