@@ -1,5 +1,9 @@
 # Change Log
 
+## Upcoming
+### Added
+- Render emphasis
+
 ## v0.2.1 - 2015-03-19
 ### Changed
 - More robust loading source with babel

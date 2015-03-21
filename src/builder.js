@@ -42,10 +42,12 @@ function buildElement(el) {
   var tagName = el.shift();
   if (tagName == 'header')
     return buildHeader(el);
-  if (tagName == 'para')
+  else if (tagName == 'para')
     return buildPara(el);
-  if (tagName == 'inlinecode')
-    return buildInlinecode(el);
+  else if (tagName == 'inlinecode')
+    return buildAndSurroundElementList('`', el);
+  else if (tagName == 'em')
+    return buildAndSurroundElementList('*', el);
   else
     throw new Error(`Unknown tag ${tagName}`);
 }
@@ -64,8 +66,8 @@ function buildPara(el) {
 }
 
 
-function buildInlinecode(el) {
-  return '`' + el.join('') + '`';
+function buildAndSurroundElementList (marker, els) {
+  return marker + buildElementList(els) + marker;
 }
 
 
@@ -78,6 +80,7 @@ function buildReleases(releases) {
            buildVersionLog('Removed', release);
   }).join('');
 }
+
 
 function getReleaseTitle({title, version}) {
   if (title)
@@ -101,9 +104,11 @@ function buildVersionLog(name, release) {
   return header + list.join('\n') + '\n\n';
 }
 
+
 function indent(str, width) {
   return map(str.split('\n'), (line) => repeat(width, ' ') + line).join('\n')
 }
+
 
 function repeat(n, x) {
   return map(new Array(n), () => x).join('');
