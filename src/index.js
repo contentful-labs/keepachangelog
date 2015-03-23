@@ -43,15 +43,19 @@ Changelog.prototype.getRelease = function(version) {
 
 
 Changelog.prototype.addUpcomingChange = function(desc) {
+  this.addUpcoming('Changed', desc);
+};
+
+Changelog.prototype.addUpcoming = function(type, desc) {
   var upcoming = this.getRelease('upcoming');
   if (!upcoming) {
     upcoming = { version: 'upcoming' };
     this.releases.unshift(upcoming);
   }
 
-  var changes = upcoming.Changed;
+  var changes = upcoming[type];
   if (!changes) {
-    upcoming.Changed = changes = [];
+    upcoming[type] = changes = [];
   }
 
   changes.push([desc]);
