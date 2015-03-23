@@ -77,7 +77,10 @@ function buildReleases(releases) {
     return buildHeader([{level: 2}, title]) +
            buildVersionLog('Added', release) +
            buildVersionLog('Changed', release) +
-           buildVersionLog('Removed', release);
+           buildVersionLog('Removed', release) +
+           buildVersionLog('Deprecated', release) +
+           buildVersionLog('Fixed', release) +
+           buildVersionLog('Security', release);
   }).join('');
 }
 

@@ -14,6 +14,15 @@ The prelude
 ### Removed
 - gone :(
 
+### Deprecated
+- for once-stable features removed in upcoming releases.
+
+### Fixed
+- for any bug fixes.
+
+### Security
+- to invite users to upgrade in case of vulnerabilities.
+
 ## v1.0.0
 ### Added
 - the initial release
