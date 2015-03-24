@@ -1,6 +1,6 @@
 # Change Log
 
-## Upcoming
+## v0.3.0 - 2015-03-24
 ### Added
 - Render emphasis
 
