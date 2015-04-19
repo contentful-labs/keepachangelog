@@ -50,10 +50,16 @@ function buildElement(el) {
       return buildAndSurroundElementList('`', el);
     case 'em':
       return buildAndSurroundElementList('*', el);
+    case 'link':
+      return buildLink(el);
     default:
       throw new Error(`Unknown tag ${tagName}`);
   }
 }
+
+
+function buildLink(el) {
+  return `[${el[1]}](${el[0].href})`;
 }
 
 

@@ -23,6 +23,10 @@ The prelude
 ### Security
 - to invite users to upgrade in case of vulnerabilities.
 
+## v1.0.1
+### Fixed
+- Parsing of links e.g. [#8](https://github.com/contentful-labs/keepachangelog/pull/8)
+
 ## v1.0.0
 ### Added
 - the initial release
