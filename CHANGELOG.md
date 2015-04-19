@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.4.0 - 2015-04-19
+### Added
+- Support for links
+
 ## v0.3.0 - 2015-03-24
 ### Added
 - Render emphasis
@@ -17,3 +21,5 @@
 - Promote `lodash-node`, `semver` and `bluebird` to normal dependencies
 
 ## v0.1.0 - 2015-03-11
+### Added
+- Initial version
