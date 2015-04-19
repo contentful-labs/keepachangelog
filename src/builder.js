@@ -40,16 +40,20 @@ function buildElement(el) {
     return el;
 
   var tagName = el.shift();
-  if (tagName == 'header')
-    return buildHeader(el);
-  else if (tagName == 'para')
-    return buildPara(el);
-  else if (tagName == 'inlinecode')
-    return buildAndSurroundElementList('`', el);
-  else if (tagName == 'em')
-    return buildAndSurroundElementList('*', el);
-  else
-    throw new Error(`Unknown tag ${tagName}`);
+
+  switch (tagName) {
+    case 'header':
+      return buildHeader(el);
+    case 'para':
+      return buildPara(el);
+    case 'inlinecode':
+      return buildAndSurroundElementList('`', el);
+    case 'em':
+      return buildAndSurroundElementList('*', el);
+    default:
+      throw new Error(`Unknown tag ${tagName}`);
+  }
+}
 }
 
 
