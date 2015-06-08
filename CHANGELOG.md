@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.6.0 - 2015-06-08
+### Added
+- Support references in release titles
+
 ## v0.4.0 - 2015-04-19
 ### Added
 - Support for links
