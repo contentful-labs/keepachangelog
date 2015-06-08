@@ -23,6 +23,14 @@ The prelude
 ### Security
 - to invite users to upgrade in case of vulnerabilities.
 
+## [v1.0.3] - 2015-01-01
+### Fixed
+- Parsing of links in version headers
+
+## [v1.0.2]
+### Fixed
+- Parsing of links in version headers
+
 ## v1.0.1
 ### Fixed
 - Parsing of links e.g. [#8](https://github.com/contentful-labs/keepachangelog/pull/8)

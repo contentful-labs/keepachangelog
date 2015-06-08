@@ -1,58 +1,98 @@
 'use strict';
 
-var {repeat, parseTill, takeTill} = require('./utils');
+import {markdown} from 'markdown';
+import {forEach, extend, map} from 'lodash-node'
+import semver from 'semver';
 
-var markdown = require('markdown').markdown;
-var _ = require('lodash-node');
-var semver = require('semver');
+import {elementText} from './builder'
+
+import Parsimmon from 'parsimmon'
+import * as PS from './parsec'
+
+var P = Parsimmon
 
 var UNRELEASED_RE = /^(unreleased|upcoming)$/i;
 
 export default function parseChangelog(string) {
   var md = markdown.parse(string);
   md.shift();
-  var prelude = parsePrelude(md);
-  var releases = parseReleases(md);
-  var epilogue = md;
-  return {prelude, releases, epilogue};
+
+  let parser = PS.co(function* () {
+    let {references} = yield optReferences;
+    let prelude = yield parsePrelude;
+    let releases = yield parseRelease.many();
+    let epilogue = yield P.all;
+    return {prelude, releases, epilogue, references};
+  })
+
+  let res = parser.parse(md);
+  if (res.status === true)
+    return res.value
+  else
+    throw new Error('Could not parse changelog')
 }
 
-var parsePrelude = takeTill(isReleaseHeader);
 
-var parseReleases = repeat(parseRelease);
+var optReferences = PS.when(o => 'references' in o).or(P.succeed({}));
 
-function parseRelease(els) {
-  var el = els[0];
-  if (!isReleaseHeader(el))
-    return null;
+var parsePrelude = PS.takeTill(isReleaseHeader)
 
-  els.shift();
-  var title = el[2];
 
-  var prelude = parseContent(els);
+function innerParser (parser) {
+  return PS.co(function* () {
+    let element = yield PS.any();
+    let res = parser.parse(element)
+    if (!res.status)
+      yield P.fail('inner parser failed')
 
-  var release = _.extend({
-    title: title,
-    prelude: prelude,
-  }, parseReleaseDetails(title));
+    return res.value;
+  })
+}
 
-  var sections = repeat(sectionParser(3))(els);
-  sections.forEach(({title, content}) => {
+var parseHeader = PS.co(function* () {
+  yield PS.token('header');
+  let {level} = yield PS.any();
+  let content = yield P.all;
+  return {content, level}
+});
+
+
+var parseRelease = PS.co(function* () {
+  let header = yield PS.when(isReleaseHeader)
+  let titleElements = header.slice(2)
+  let title = elementText(header);
+  let release = extend({
+    title: titleElements,
+    // prelude: prelude,
+  }, extractReleaseTitleInfo(title));
+  let changeSections = yield sectionParser(3).many();
+
+  forEach(changeSections, ({title, content}) => {
     release[title] = extractBulletList(content);
   });
+  return release
+})
 
-  release.epilogue = takeTill(isReleaseHeader)(els);
-  return release;
-}
 
 
 function isReleaseHeader(el) {
-  return isHeader(el) && el[1].level === 2 &&
-         ( el[2].match(/^v?\d+\.\d+\.\d+/) ||
-           el[2].match(UNRELEASED_RE));
+  if (!isHeaderLevel(el, 2))
+    return false;
+
+  let text = elementText(el);
+  return ( text.match(/^v?\d+\.\d+\.\d+/) ||
+           text.match(UNRELEASED_RE));
 }
 
-function parseReleaseDetails(str) {
+/**
+ * Takes a release title string and returns an object with the release
+ * version and date.
+ *
+ * @example
+ *   extractReleaseTitleInfo('v1.0.0 - 2014-01-01')
+ *   // => {version: '1.0.0', date: '2014-01-01'}
+ */
+function extractReleaseTitleInfo(str) {
   if (str.match(UNRELEASED_RE))
     return { version: 'upcoming' };
 
@@ -70,28 +110,14 @@ function parseReleaseDetails(str) {
   return { version, date };
 }
 
-var parseContent = parseTill(isHeader);
-
-function sectionParser(level) {
-  return function(md) {
-    var el = md[0];
-    if (!(isHeader(el) && el[1].level === level))
-      return;
-
-    md.shift();
-    var title = el[2];
-
-    function newSection(el) {
-      return isHeader(el) && el[1].level <= level;
-    }
-
-    var content = takeTill(newSection)(md);
-
-    return {
-      title: title,
-      content: content
-    };
-  };
+function sectionParser(sectionLevel) {
+  return PS.co(function* () {
+    let {level, content: title} = yield innerParser(parseHeader);
+    if (level !== sectionLevel)
+      yield P.fail()
+    let content = yield PS.takeTill(isHeader)
+    return {title, content}
+  })
 }
 
 function extractBulletList(md) {
@@ -99,11 +125,15 @@ function extractBulletList(md) {
   if (!(list && list[0] === 'bulletlist'))
     return null;
 
-  return _.map(list.slice(1), function(item) {
+  return map(list.slice(1), function(item) {
     return item.slice(1);
   });
 }
 
 function isHeader(el) {
   return el && el[0] === 'header';
+}
+
+function isHeaderLevel (el, level) {
+  return isHeader(el) && el[1].level === level;
 }
