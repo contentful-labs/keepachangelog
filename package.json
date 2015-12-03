@@ -21,6 +21,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
+    "babel-runtime": "^4.7.8",
     "bluebird": "^2.9.13",
     "lodash-node": "^3.5.0",
     "markdown": "^0.5.0",
@@ -29,7 +30,6 @@
   },
   "devDependencies": {
     "babel": "^4.7.8",
-    "babel-runtime": "^4.7.8",
     "chai": "^2.1.1",
     "co": "^4.4.0",
     "gulp": "^3.8.11",

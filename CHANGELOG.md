@@ -1,5 +1,10 @@
 # Change Log
 
+## Upcoming
+### Changed
+- Make `babel-runtime` a production dependency. Prevents crashes when the
+  package is not installed.
+
 ## v0.7.0 - 2015-12-03
 ### Added
 - Add helper to initialize CHANGELOG file
