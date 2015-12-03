@@ -9,6 +9,18 @@ var writeFile = promisify(fs.writeFile);
 import parseChangelog from './parser';
 import buildChangelog from './builder'
 
+export function init (path) {
+  path = path || 'CHANGELOG.md';
+
+  return parse(
+    [
+      '# Change Log',
+      'All notable changes to this project will be documented in this file.',
+      ''
+    ].join('\n')
+  ).write(path);
+}
+
 export function parse(content) {
   return new Changelog(parseChangelog(content));
 }

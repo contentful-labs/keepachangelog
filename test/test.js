@@ -1,7 +1,10 @@
+'use strict';
+
 import path from 'path'
-import {readFileSync} from 'fs'
+import os from 'os'
+import {readFileSync, writeFileSync, unlinkSync} from 'fs'
 import {expect} from 'chai'
-import {parse} from '../src'
+import {init, parse} from '../src'
 
 function readFixture(name) {
   var p = path.resolve('test', 'fixtures', name) + '.md'
@@ -22,4 +25,47 @@ describe('changelog', function() {
     expect(changelog.build()).to.equal(source)
   });
 
+  describe('init', function () {
+    var cwd = process.cwd();
+
+    function inits(path) {
+      it('inits an empty CHANGELOG file with a prelude', function () {
+        var prelude = [
+          '# Change Log',
+          'All notable changes to this project will be documented in this file.',
+          ''
+        ].join('\n');
+
+        var readPath = path || './CHANGELOG.md';
+
+        return init(path).then(function () {
+          var changelog = readFileSync(readPath).toString();
+          expect(changelog).to.equal(prelude);
+        });
+      });
+    }
+
+    describe('when no path is given', function () {
+      beforeEach(function () {
+        process.chdir(os.tmpdir());
+      });
+
+      afterEach(function () {
+        unlinkSync('./CHANGELOG.md');
+        process.chdir(cwd);
+      });
+
+      inits();
+    });
+
+    describe('when a path is given', function () {
+      var path = `/tmp/CHANGELOG-${+new Date()}.md`;
+
+      afterEach(function () {
+        unlinkSync(path);
+      });
+
+      inits(path);
+    })
+  });
 });
