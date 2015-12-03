@@ -1,6 +1,6 @@
 {
   "name": "keepachangelog",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Programatically modify change logs",
   "main": "index.js",
   "scripts": {
