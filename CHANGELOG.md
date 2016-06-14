@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.7.2 - 2016-06-14
+### Fixed
+- Nail version of parsimmon
+
 ## v0.7.1 - 2015-12-03
 ### Changed
 - Make `babel-runtime` a production dependency. Prevents crashes when the
