@@ -25,7 +25,7 @@
     "bluebird": "^2.9.13",
     "lodash-node": "^3.5.0",
     "markdown": "^0.5.0",
-    "parsimmon": "^0.7.0",
+    "parsimmon": "0.7.0",
     "semver": "^4.3.1"
   },
   "devDependencies": {
