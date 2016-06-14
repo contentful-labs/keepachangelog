@@ -15,7 +15,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git@github.com:contentful-labs/keepachangelog.git"
+    "url": "https://github.com/contentful-labs/keepachangelog.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
