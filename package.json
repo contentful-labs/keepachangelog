@@ -4,7 +4,7 @@
   "description": "Programatically modify change logs",
   "main": "index.js",
   "scripts": {
-    "prepublish": "gulp compile",
+    "prepare": "gulp compile",
     "test": "mocha"
   },
   "keywords": [
