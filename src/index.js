@@ -78,7 +78,7 @@ Changelog.prototype.addRelease = function(version) {
   var release = this.getRelease('upcoming');
   if (!release) { return; }
 
-  this.releases.shift(release);
+  this.releases.shift();
 
   var upcomingTitle = release.title;
 
