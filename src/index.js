@@ -90,14 +90,14 @@ Changelog.prototype.addRelease = function(version) {
   release.title = [ ['link_ref', { ref: release.version, original: `[${release.version}]` }, release.version], ` - ${release.date}` ];
 
   this.releases.shift();
-  this.releases.unshift(release)
+  this.releases.unshift(release);
   this.releases.unshift({ version: 'upcoming', title: upcoming.title });
 
   function getDateString() {
-    var today = new Date()
-    var dd = String(today.getDate()).padStart(2, '0')
-    var mm = String(today.getMonth() + 1).padStart(2, '0')
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
-    return `${yyyy}-${mm}-${dd}`
+    return `${yyyy}-${mm}-${dd}`;
   }
 };
