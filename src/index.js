@@ -75,19 +75,23 @@ Changelog.prototype.addUpcoming = function(type, desc) {
 };
 
 Changelog.prototype.addRelease = function(version) {
-  var release = this.getRelease('upcoming');
-  if (!release) { return; }
+  var upcoming = this.getRelease('upcoming');
+  if (!upcoming) {
+    upcoming = { version: 'upcoming' };
+    this.releases.unshift(upcoming);
+  }
 
-  this.releases.shift();
+  var changeTypes = ['Added', 'Changed', 'Deprecated', 'Removed', 'Fixed', 'Security'];
+  if (!changeTypes.some(function(type) { return typeof(upcoming[type]) !== 'undefined' && upcoming[type].length > 0 })) { return; }
 
-  var upcomingTitle = release.title;
-
+  var release = Object.assign({}, upcoming);
   release.version = version;
   release.date = getDateString();
   release.title = [ ['link_ref', { ref: release.version, original: `[${release.version}]` }, release.version], ` - ${release.date}` ];
 
-  this.releases.unshift(release);
-  this.releases.unshift({ version: 'upcoming', title: upcomingTitle });
+  this.releases.shift();
+  this.releases.unshift(release)
+  this.releases.unshift({ version: 'upcoming', title: upcoming.title });
 
   function getDateString() {
     var today = new Date()

@@ -45,6 +45,13 @@ describe('changelog', function() {
       changelog.addRelease('0.0.9')
       expect(changelog.build()).to.equal(released)
     });
+
+    it('skips empty releases', function() {
+      var source = readFixture('released')
+      var changelog = parse(source)
+      changelog.addRelease('0.0.10')
+      expect(changelog.build()).to.equal(source)
+    });
   });
 
 
