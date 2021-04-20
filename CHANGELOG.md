@@ -1,5 +1,9 @@
 # Change Log
 
+## [Unreleased][unreleased]
+### Added
+- Add `Changelog.addRelease(version)` method.
+
 ## v0.7.2 - 2016-06-14
 ### Fixed
 - Nail version of parsimmon
