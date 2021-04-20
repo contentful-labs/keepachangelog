@@ -4,6 +4,7 @@ import path from 'path'
 import os from 'os'
 import {readFileSync, writeFileSync, unlinkSync} from 'fs'
 import {expect} from 'chai'
+import sinon from 'sinon'
 import {init, parse} from '../src'
 
 function readFixture(name) {
@@ -24,6 +25,28 @@ describe('changelog', function() {
     var changelog = parse(source)
     expect(changelog.build()).to.equal(source)
   });
+
+  describe('addRelease', function () {
+    var now = new Date('19 April 2021 00:00:00');
+    var clock
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now.getTime());
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('creates a new release', function() {
+      var source = readFixture('keepachangelog')
+      var changelog = parse(source)
+      var released = readFixture('released')
+      changelog.addRelease('0.0.9')
+      expect(changelog.build()).to.equal(released)
+    });
+  });
+
 
   describe('init', function () {
     var cwd = process.cwd();
