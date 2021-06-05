@@ -73,3 +73,31 @@ Changelog.prototype.addUpcoming = function(type, desc) {
 
   changes.push([desc]);
 };
+
+Changelog.prototype.addRelease = function(version) {
+  var upcoming = this.getRelease('upcoming');
+  if (!upcoming) {
+    upcoming = { version: 'upcoming' };
+    this.releases.unshift(upcoming);
+  }
+
+  var changeTypes = ['Added', 'Changed', 'Deprecated', 'Removed', 'Fixed', 'Security'];
+  if (!changeTypes.some(function(type) { return typeof(upcoming[type]) !== 'undefined' && upcoming[type].length > 0 })) { return; }
+
+  var release = Object.assign({}, upcoming);
+  release.version = version;
+  release.date = getDateString();
+  release.title = [ ['link_ref', { ref: release.version, original: `[${release.version}]` }, release.version], ` - ${release.date}` ];
+
+  this.releases.shift();
+  this.releases.unshift(release);
+  this.releases.unshift({ version: 'upcoming', title: upcoming.title });
+
+  function getDateString() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    return `${yyyy}-${mm}-${dd}`;
+  }
+};
